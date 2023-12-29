@@ -1,2 +1,2 @@
 # pulsar
-cheat for combat master
+mod for combat master
