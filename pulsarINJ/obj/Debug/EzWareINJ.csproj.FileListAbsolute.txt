@@ -1,0 +1,14 @@
+C:\Users\servi\OneDrive\Bureau\EzWareINJ\bin\Debug\EzWareINJ.exe.config
+C:\Users\servi\OneDrive\Bureau\EzWareINJ\bin\Debug\EzWareINJ.exe
+C:\Users\servi\OneDrive\Bureau\EzWareINJ\bin\Debug\EzWareINJ.pdb
+C:\Users\servi\OneDrive\Bureau\EzWareINJ\obj\Debug\EzWareINJ.csproj.AssemblyReference.cache
+C:\Users\servi\OneDrive\Bureau\EzWareINJ\obj\Debug\EzWareINJ.csproj.SuggestedBindingRedirects.cache
+C:\Users\servi\OneDrive\Bureau\EzWareINJ\obj\Debug\EzWareINJ.Form1.resources
+C:\Users\servi\OneDrive\Bureau\EzWareINJ\obj\Debug\EzWareINJ.Properties.Resources.resources
+C:\Users\servi\OneDrive\Bureau\EzWareINJ\obj\Debug\EzWareINJ.csproj.GenerateResource.cache
+C:\Users\servi\OneDrive\Bureau\EzWareINJ\obj\Debug\EzWareINJ.csproj.CoreCompileInputs.cache
+C:\Users\servi\OneDrive\Bureau\EzWareINJ\obj\Debug\EzWareINJ.exe
+C:\Users\servi\OneDrive\Bureau\EzWareINJ\obj\Debug\EzWareINJ.pdb
+C:\Users\servi\OneDrive\Bureau\EzWareINJ\bin\Debug\Memory.dll
+C:\Users\servi\OneDrive\Bureau\EzWareINJ\bin\Debug\Memory.xml
+C:\Users\servi\OneDrive\Bureau\EzWareINJ\obj\Debug\EzWareINJ.csproj.CopyComplete
