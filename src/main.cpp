@@ -134,7 +134,7 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
-		if (!GetKeyState(VK_RSHIFT)) {
+		if (globals::inGui) {
 			ImGui::Begin("Pulsar");
 
 			if (ImGui::Button("self destruct")) {
@@ -145,6 +145,10 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
 			ImGui::Checkbox("smg bullets", &globals::smg_bullets);
 
 			ImGui::Checkbox("player list", &globals::player_list);
+
+			ImGui::Checkbox("overlay", &globals::overlay);
+
+			ImGui::Checkbox("crosshair", &globals::crosshair);
 
 			ImGui::End();
 
@@ -164,6 +168,25 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
 			ImGui::End();
 		}
 
+		if (globals::overlay)
+		{
+			ImGui::SetNextWindowSize(ImGui::GetIO().DisplaySize);
+			ImGui::SetNextWindowPos(ImVec2{ 0, 0 });
+			ImGui::Begin("overlay", 0, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoBringToFrontOnFocus |
+				ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollWithMouse
+			);
+
+			ImDrawList *drawList = ImGui::GetWindowDrawList();
+			
+			if (globals::crosshair)
+			{
+				ImVec2 drawPos = { ImGui::GetIO().DisplaySize[0]/2, ImGui::GetIO().DisplaySize[1] / 2 };
+				drawList->AddCircle(drawPos, 3, ImGui::ColorConvertFloat4ToU32(ImVec4(1, 0, 0, 1)), 20, 1); // (r, g, b, a) , segments, thickness
+			}
+			
+			ImGui::End();
+		}
+
 		ImGui::Render();
 
 		pContext->OMSetRenderTargets(1, &mainRenderTargetView, NULL);
@@ -177,7 +200,9 @@ DWORD WINAPI runClient(LPVOID lpReserved) {
 	{
 		//client code
 
-		if (/*GetKeyState(0x52) && */globals::smg_bullets)
+
+		//infinite smg bullets
+		if (globals::smg_bullets)
 		{
 			try
 			{
@@ -188,7 +213,23 @@ DWORD WINAPI runClient(LPVOID lpReserved) {
 
 			}
 		}
+
+		//gui toggle logic
+		if (GetAsyncKeyState(VK_INSERT))
+		{
+			if (globals::guiToggleCheck)
+			{
+				globals::guiToggleCheck = false;
+				globals::inGui = !globals::inGui;
+			}
+			
+		}
+		else
+		{
+			globals::guiToggleCheck = true;
+		}
 		
+		//player list
 		if (globals::player_list && mem::FindAddress(unityPlayer + 0x01B48C60, {0x40, 0x1C0, 0x60, 0x0}) != 0x0) {
 			if (globals::joinDelayCheck)
 			{
