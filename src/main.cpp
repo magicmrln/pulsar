@@ -142,7 +142,7 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
 				kiero::shutdown();
 			}
 
-			ImGui::Checkbox("smg bullets", &globals::smg_bullets);
+			//ImGui::Checkbox("smg bullets", &globals::smg_bullets);
 
 			ImGui::Checkbox("player list", &globals::player_list);
 
@@ -201,12 +201,12 @@ DWORD WINAPI runClient(LPVOID lpReserved) {
 		//client code
 
 
-		//infinite smg bullets
+		//infinite smg bullets   NOT WORKING ATM
 		if (globals::smg_bullets)
 		{
 			try
 			{
-				*(int32_t*)mem::FindAddress(moduleBase + 0x04A09060, { 0xB8,0x70,0x20,0x68,0x10,0xA0,0x1D0 }) = 30;
+				*(int32_t*)mem::FindAddress(project + 0x04A09060, { 0xB8,0x70,0x20,0x68,0x10,0xA0,0x1D0 }) = 30;
 			}
 			catch (...)
 			{
@@ -230,7 +230,7 @@ DWORD WINAPI runClient(LPVOID lpReserved) {
 		}
 		
 		//player list
-		if (globals::player_list && mem::FindAddress(unityPlayer + 0x01B48C60, {0x40, 0x1C0, 0x60, 0x0}) != 0x0) {
+		if (globals::player_list && mem::FindAddress(engine + 0x01B02268, {0x20, 0x370, 0x10, 0x68, 0x0}) != 0x0) {
 			if (globals::joinDelayCheck)
 			{
 				std::this_thread::sleep_for(std::chrono::milliseconds(1000));
@@ -240,14 +240,14 @@ DWORD WINAPI runClient(LPVOID lpReserved) {
 			try {
 				int playerCount = 10;
 
-				for (int i = 0; i < playerCount; i++) {
-					unsigned int offset = 0x8 * i;
+				for (int i = 1; i < playerCount; i++) {
+					unsigned int offset = 0x8 * i + 0x10;
 					uintptr_t offsetAddress = (uintptr_t)offset;
 					
-					if (mem::FindAddress(unityPlayer + 0x01B48C60, { 0x40, 0x1C0, 0x60, offset }) > offsetAddress) {
+					if (mem::FindAddress(engine + 0x01B02268, { 0x20, 0x370, 0x10, 0x68, offset }) > offsetAddress) {
 						for (int x = 0; x < 3; x++) {
 							unsigned int offset2 = 0x8 * x;
-							globals::playerListPositions[i][x] = *(float*)mem::FindAddress(unityPlayer + 0x01B48C60, { 0x40, 0x1C0, 0x60, offset, 0x1F4 + offset2 });
+							globals::playerListPositions[i][x] = *(float*)mem::FindAddress(engine + 0x01B02268, { 0x20, 0x370, 0x10, 0x68, offset, 0x1F4 + offset2 });
 						}
 					}
 					else
